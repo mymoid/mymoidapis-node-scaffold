@@ -1,0 +1,26 @@
+version: '3'
+services:
+  server:
+    image: mymoidapis-graphql
+    environment:
+      - NODE_ENV=dev
+      - MONGO_URI=mongodb://mongo-moto:27017
+      - MYMOID_SMS=http://sms:3000/sms
+      - JWT_SECRET=somereallylongsecretkey
+    ports:
+      - 4000:4000
+    links:
+      - mongo-moto
+
+  mongo-moto:
+    container_name: mongo-moto
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - '27017:27017'
+# docker-compose up (view all logs)
+# To run all services as a daemon: docker-compose up -d
+# To run only a service: docker-compose up -d server
+# Containers runing: docker ps
+# Container log: docker logs -f mymoidcontrolpanel_server_1
