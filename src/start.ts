@@ -17,14 +17,12 @@ function startServer({port = process.env.PORT} = {}) {
 
   app.use(AWSXRay.express.openSegment('mymoidapis-service')) // TODO: from package.json name?
   const router = getRouter()
-  app.use('/api', router)
   app.use(errorMiddleware)
   app.use(AWSXRay.express.closeSegment())
-
   let ready = true
 
   app.get('/healthCheck', function(req: Request, res: Response) {
-    logger.info('healthCheck')
+    logger.warn('healthCheck')
     if (ready) {
       res.json({healthCheck: ready})
     } else {
@@ -32,10 +30,12 @@ function startServer({port = process.env.PORT} = {}) {
     }
   })
 
+  app.use('/api', router)
+
   return new Promise(resolve => {
     const server = app.listen(port, () => {
       // @ts-ignore
-      logger.info(`Listening on port ${server.address().port}`)
+      logger.warn(`Listening on port ${server.address().port}`)
       const originalClose = server.close.bind(server)
       // @ts-ignore
       server.close = () => {
@@ -47,9 +47,10 @@ function startServer({port = process.env.PORT} = {}) {
     })
 
     process.on('SIGTERM', () => {
-      logger.info('SIGTERM')
+      logger.warn('SIGTERM')
       const TIME_TO_KILL = 10000
       ready = false
+      logger.warn('closing server')
       setTimeout(() => {
         server.close(() => {
           logger.warn('SIGTERM exit')
