@@ -1,9 +1,11 @@
 import {Router, IRouter} from 'express'
+import logger from 'loglevel'
 import {action} from './some-controller'
 
 function getSomeDomainRouter(): IRouter {
   const router = Router()
-  router.use('/subdomain', action)
+  logger.warn('GET /subdomain')
+  router.get('/subdomain', action)
   return router
 }
 
