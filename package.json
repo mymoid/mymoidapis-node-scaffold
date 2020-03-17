@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "npm run typecheck && concurrently -k -p \"[{name}]\" -n \"typecheck,node\" -c \"yellow.bold,cyan.bold\" \"npm run watch-ts\" \"npm run serve\"",
-    "serve": "nodemon --delay 3000ms dist/src/index.js",
+    "serve": "nodemon --delay 3000ms dist/index.js",
     "lint": "eslint . --ext \".js,.ts,.tsx,.ts.snap\"",
     "format": "npm run prettier -- --write",
     "prettier": "prettier \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|css|graphql|md|mdx)\"",
