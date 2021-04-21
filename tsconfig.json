@@ -14,5 +14,6 @@
     "lib": ["es2018", "esnext.asynciterable"],
     "esModuleInterop": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": ["src/__tests__", "src/routes/__tests__"]
 }
