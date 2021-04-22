@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "types": ["jest", "node"],
     "module": "commonjs",
     "target": "es6",

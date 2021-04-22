@@ -3,6 +3,11 @@ import AWSXRay from 'aws-xray-sdk'
 import startServer from './start'
 import http from 'http'
 import https from 'https'
+// POSTGRES_START
+// MONGO_START
+import initDb from './init-db'
+// POSTGRES_END
+// MONGO_START
 
 const isTest = process.env.NODE_ENV === 'test'
 const isProduction = process.env.NODE_ENV === 'production'
