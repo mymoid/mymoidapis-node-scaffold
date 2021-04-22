@@ -1,5 +1,4 @@
-// POSTGRES_START
-// MONGO_START
+// ORM_START
 import {getConnectionOptions, createConnection, Connection} from 'typeorm'
 import logger from 'loglevel'
 
@@ -13,5 +12,4 @@ export const createTypeormConn = async () => {
   await connection.runMigrations()
   return connection
 }
-// POSTGRES_END
-// MONGO_START
+// ORM_END

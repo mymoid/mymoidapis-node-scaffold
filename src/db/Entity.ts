@@ -1,8 +1,7 @@
 // COMMENT_START
-// Entity template
+// Orm entity template
 // COMMENT_END
-// POSTGRES_START
-// MONGO_START
+// ORM_START
 import {getManager, Entity, PrimaryGeneratedColumn, Column} from 'typeorm'
 
 @Entity('example')
@@ -21,5 +20,4 @@ function createReportRepository() {
 }
 
 export {Example, createReportRepository}
-// POSTGRES_END
-// MONGO_START
+// ORM_END
