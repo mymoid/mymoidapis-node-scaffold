@@ -12,5 +12,5 @@ jest.config.js
 node_modules
 package-lock.json
 src
-test
+tests
 tsconfig.json

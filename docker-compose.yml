@@ -1,24 +1,65 @@
 version: '3'
 services:
   server:
-    image: mymoidapis-graphql
+    image: mymoidapis-example
     environment:
-      - NODE_ENV=dev
-      - MONGO_URI=mongodb://mongo-moto:27017
-      - MYMOID_SMS=http://sms:3000/sms
-      - JWT_SECRET=somereallylongsecretkey
-    ports:
-      - 4000:4000
-    links:
-      - mongo-moto
+      PORT=3000
+      - NODE_ENV=development
+      // POSTGRES_START
+      - TYPEORM_CONNECTION=postgres
+      - TYPEORM_PORT=5432
+      - TYPEORM_USERNAME=postgres
+      // POSTGRES_END
+      // MONGO_START
+      - TYPEORM_CONNECTION=mongodb
+      - TYPEORM_PORT=27017
+      - TYPEORM_USERNAME=mongodb
+      // MONGO_END
+      - TYPEORM_HOST=localhost
+      - TYPEORM_PASSWORD=changeme
+      - TYPEORM_DATABASE=example_db
+      - TYPEORM_SYNCHRONIZE=false
+      - TYPEORM_LOGGING=true
+      - TYPEORM_ENTITIES=dist/db/*.js
+      - TYPEORM_MIGRATIONS=dist/db/migration/*.js
+      - TYPEORM_MIGRATIONS_DIR=src/db/migration
 
-  mongo-moto:
+    ports:
+      - 3000:3000
+    links:
+      // POSTGRES_START
+      - postgres
+      // POSTGRES_END
+      // MONGO_START
+      - mongo
+      // MONGO_END
+
+  // MONGO_START
+  mongo:
     container_name: mongo-moto
     image: mongo
     volumes:
       - ./data:/data/db
     ports:
       - '27017:27017'
+  // MONGO_END
+  // POSTGRES_START
+  postgres:
+    container_name: postgres_container_reports
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+    volumes:
+      - ./etc/db/reports/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    // POSTGRES_END
+// POSTGRES_START
+volumes:
+  postgres-data:
+// POSTGRES_END
 # docker-compose up (view all logs)
 # To run all services as a daemon: docker-compose up -d
 # To run only a service: docker-compose up -d server
