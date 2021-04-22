@@ -1,0 +1,18 @@
+{
+  "extends": "../node_modules/kcd-scripts/shared-tsconfig.json",
+  "exclude": ["../node_modules"],
+  "include": ["./*", "./**/*"],
+  "compilerOptions": {
+    "strict": false,  // https://github.com/typeorm/typeorm/issues/3903
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "target": "es2020",
+    "typeRoots": ["../types", "../node_modules/@types"],
+    "noUncheckedIndexedAccess": true,
+    "paths": {
+      "*": ["*", "../tests/*"]
+    }
+  }
+}

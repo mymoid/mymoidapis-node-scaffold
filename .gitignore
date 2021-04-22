@@ -1,7 +1,14 @@
 .idea/
 node_modules
 dist
-data
 /.env
-test/globalConfig.json
+tests/globalConfig.json
 uploads/
+postgres-data
+coverage
+
+*.ignored.*
+/fileSize.js
+/generate200k.js
+/generate-orders.js
+/streamData.js

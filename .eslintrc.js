@@ -1,16 +1,13 @@
 module.exports = {
-  parser: 'pluggable-babel-eslint',
-  env: {
-    es6: true,
-  },
-  parserOptions: {
-    ecmaVersion: 2015,
-    sourceType: 'module',
-    plugins: ['typescript'],
-  },
-  plugins: ['jest'],
+  extends: './node_modules/kcd-scripts/eslint.js',
   rules: {
-    'no-console': 'off',
+    'consistent-return': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-call': 'off',
+    '@typescript-eslint/no-base-to-string': 'off',
+    '@typescript-eslint/no-unsafe-member-access': 'off',
+    '@typescript-eslint/sort-type-union-intersection-members': 'off',
+    '@typescript-eslint/non-nullable-type-assertion-style': 'off',
     'jest/no-large-snapshots': 'error',
   },
 }
