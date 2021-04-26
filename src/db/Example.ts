@@ -4,8 +4,8 @@
 // ORM_START
 import {getManager, Entity, PrimaryGeneratedColumn, Column} from 'typeorm'
 
-@Entity('example')
-class Example {
+@Entity('${projectName}')
+class ${projectName} {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -15,9 +15,9 @@ class Example {
   fieldName: boolean
 }
 
-function createReportRepository() {
-  return getManager().getRepository(Example)
+function create${ProjectName}Repository() {
+  return getManager().getRepository('${projectName}')
 }
 
-export {Example, createReportRepository}
+export {${projectName}, create${ProjectName}Repository}
 // ORM_END

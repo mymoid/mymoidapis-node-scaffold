@@ -12,7 +12,7 @@ process.env.TYPEORM_USERNAME='mongodb'
 // MONGO_END
 process.env.TYPEORM_HOST='localhost'
 process.env.TYPEORM_PASSWORD='changeme'
-process.env.TYPEORM_DATABASE='example_db'
+process.env.TYPEORM_DATABASE='${projectName}_db'
 process.env.TYPEORM_SYNCHRONIZE='true'
 process.env.TYPEORM_LOGGING='true'
 process.env.TYPEORM_ENTITIES='dist/db/*.js'
