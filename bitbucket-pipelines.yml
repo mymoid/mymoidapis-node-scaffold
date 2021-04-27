@@ -3,44 +3,48 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: node:11
+image: node:14.15.0
 
 pipelines:
   branches:
     master:
       - step:
+          name: Production
+          deployment: Production
           caches:
             - node
           script:
             - npm install
             - npx jest --ci
-            - npm run typecheck
+            - npm run build
           artifacts:
             - dist/**
       - step:
           name: Build
           image: tstrohmeier/awscli:3.6.4
           script:
-            - eval $(aws ecr get-action --region ${AWS_DEFAULT_REGION}
+            - eval $(aws ecr get-login --region ${AWS_DEFAULT_REGION}
               --no-include-email)
             - export BUILD_ID=production-${BITBUCKET_COMMIT}
-            - docker build -t mymoidapis-$service-name:$BUILD_ID .
-            - docker tag mymoidapis-$service-name:$BUILD_ID
-              ${AWS_PROD_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-$service-name:production-${BITBUCKET_COMMIT}
+            - docker build -t mymoidapis-reports:$BUILD_ID .
+            - docker tag mymoidapis-reports:$BUILD_ID
+              ${AWS_PROD_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-reports:production-${BITBUCKET_COMMIT}
             - docker push
-              ${AWS_PROD_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-$service-name:production-${BITBUCKET_COMMIT}
+              ${AWS_PROD_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-reports:production-${BITBUCKET_COMMIT}
           services:
             - docker
           caches:
             - docker
     develop:
       - step:
+          name: Test
+          deployment: Test
           caches:
             - node
           script:
             - npm install
             - npx jest --ci
-            - npm run typecheck
+            - npm run build
           artifacts:
             - dist/**
       - step:
@@ -50,14 +54,14 @@ pipelines:
             - export AWS_ACCESS_KEY_ID=$AWS_STAGING_ACCESS_KEY_ID
             - export AWS_SECRET_ACCESS_KEY=$AWS_STAGING_SECRET_ACCESS_KEY
             - aws configure list
-            - eval $(aws ecr get-action --region ${AWS_DEFAULT_REGION}
+            - eval $(aws ecr get-login --region ${AWS_DEFAULT_REGION}
               --no-include-email)
             - export BUILD_ID=staging-${BITBUCKET_COMMIT}
-            - docker build -t mymoidapis-$service-name:$BUILD_ID .
-            - docker tag mymoidapis-$service-name:$BUILD_ID
-              ${AWS_STAGING_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-$service-name:staging-${BITBUCKET_COMMIT}
+            - docker build -t mymoidapis-${projectName}:$BUILD_ID .
+            - docker tag mymoidapis-${projectName}:$BUILD_ID
+              ${AWS_STAGING_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-${projectName}:staging-${BITBUCKET_COMMIT}
             - docker push
-              ${AWS_STAGING_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-$service-name:staging-${BITBUCKET_COMMIT}
+              ${AWS_STAGING_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-${projectName}:staging-${BITBUCKET_COMMIT}
           services:
             - docker
           caches:
