@@ -7,6 +7,11 @@ export const createTypeormConn = async () => {
   const connectionOptions = await getConnectionOptions('default')
   const connection: Connection = await createConnection({
     ...connectionOptions,
+// ORM_END
+// MONGO_START
+    useUnifiedTopology: true,
+// MONGO_END
+// ORM_START
     name: 'default',
   })
   await connection.runMigrations()

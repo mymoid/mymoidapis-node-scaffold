@@ -3,7 +3,7 @@ services:
   server:
     image: mymoidapis-example
     environment:
-      PORT=3000
+      - PORT=3000
       - NODE_ENV=development
       // POSTGRES_START
       - TYPEORM_CONNECTION=postgres
@@ -17,13 +17,12 @@ services:
       // MONGO_END
       - TYPEORM_HOST=localhost
       - TYPEORM_PASSWORD=changeme
-      - TYPEORM_DATABASE=example_db
+      - TYPEORM_DATABASE=${projectName}_db
       - TYPEORM_SYNCHRONIZE=false
       - TYPEORM_LOGGING=true
       - TYPEORM_ENTITIES=dist/db/*.js
       - TYPEORM_MIGRATIONS=dist/db/migration/*.js
       - TYPEORM_MIGRATIONS_DIR=src/db/migration
-
     ports:
       - 3000:3000
     links:
@@ -36,16 +35,20 @@ services:
 
   // MONGO_START
   mongo:
-    container_name: mongo-moto
+    container_name: mongo_container_${projectName}
     image: mongo
+    environment:
+      MONGODB_DB: ${projectName}_db
+      MONGODB_USER: mongodb
+      MONGODB_PASSWORD: changeme
     volumes:
-      - ./data:/data/db
+      - data-volume:/data/db
     ports:
       - '27017:27017'
   // MONGO_END
   // POSTGRES_START
   postgres:
-    container_name: postgres_container_reports
+    container_name: postgres_container_${projectName}
     image: postgres
     environment:
       POSTGRES_USER: postgres
@@ -56,10 +59,13 @@ services:
     ports:
       - '5432:5432'
     // POSTGRES_END
-// POSTGRES_START
 volumes:
+// POSTGRES_START
   postgres-data:
 // POSTGRES_END
+// MONGO_START
+  data-volume:
+// MONGO_END
 # docker-compose up (view all logs)
 # To run all services as a daemon: docker-compose up -d
 # To run only a service: docker-compose up -d server

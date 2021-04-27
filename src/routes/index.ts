@@ -9,7 +9,7 @@ import {create${ProjectName}} from './${projectName}-controller'
 function getRouter(): IRouter {
   const router = Router()
   logger.warn(`/${projectName}`)
-  router.post('/${projectName}', getSomeDomainRouter())
+  router.post('/${projectName}', create${ProjectName})
   return router
 }
 
