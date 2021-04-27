@@ -48,6 +48,11 @@ pipelines:
           artifacts:
             - dist/**
       - step:
+          name: Infrastructure
+          image: tstrohmeier/awscli:3.6.4
+          script:
+            - curl "https://jenkins2.mymoid.com/jenkins/buildByToken/buildWithParameters?job=${JOB_NAME}&COMMIT_ID=${BITBUCKET_COMMIT}&token=${JENKINS_TOKEN}"
+      - step:
           name: Build
           image: tstrohmeier/awscli:3.6.4
           script:
