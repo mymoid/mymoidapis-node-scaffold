@@ -26,11 +26,11 @@ pipelines:
             - eval $(aws ecr get-login --region ${AWS_DEFAULT_REGION}
               --no-include-email)
             - export BUILD_ID=production-${BITBUCKET_COMMIT}
-            - docker build -t mymoidapis-reports:$BUILD_ID .
-            - docker tag mymoidapis-reports:$BUILD_ID
-              ${AWS_PROD_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-reports:production-${BITBUCKET_COMMIT}
+            - docker build -t mymoidapis-${projectName}:$BUILD_ID .
+            - docker tag mymoidapis-${projectName}:$BUILD_ID
+              ${AWS_PROD_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-${projectName}:production-${BITBUCKET_COMMIT}
             - docker push
-              ${AWS_PROD_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-reports:production-${BITBUCKET_COMMIT}
+              ${AWS_PROD_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/mymoidapis-${projectName}:production-${BITBUCKET_COMMIT}
           services:
             - docker
           caches:
