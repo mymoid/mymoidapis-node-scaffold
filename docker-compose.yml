@@ -38,11 +38,12 @@ services:
     container_name: mongo_container_${projectName}
     image: mongo
     environment:
-      MONGODB_DB: ${projectName}_db
-      MONGODB_USER: mongodb
-      MONGODB_PASSWORD: changeme
+      MONGO_INITDB_DATABASE: ${projectName}_db
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: changeme
     volumes:
       - data-volume:/data/db
+      - ./etc/docker/mongo-entrypoint/:/docker-entrypoint-initdb.d/
     ports:
       - '27017:27017'
   // MONGO_END
