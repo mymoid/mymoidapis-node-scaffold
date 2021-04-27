@@ -1,24 +1,18 @@
 import express, {Request, Response, NextFunction, Router} from 'express'
-import 'dotenv/config'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import passport from 'passport'
 import logger from 'loglevel'
 import 'express-async-errors'
 import errorMiddleware from './error-middleware'
 import getRouter from './routes'
-import AWSXRay from 'aws-xray-sdk'
 
 function startServer({port = process.env.PORT} = {}) {
   const app: express.Application = express()
   app.use(cors())
   app.use(bodyParser.json())
-  app.use(passport.initialize())
 
-  app.use(AWSXRay.express.openSegment('mymoidapis-service')) // TODO: from package.json name?
   const router = getRouter()
   app.use(errorMiddleware)
-  app.use(AWSXRay.express.closeSegment())
   let ready = true
 
   app.get('/healthCheck', function(req: Request, res: Response) {
