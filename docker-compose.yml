@@ -38,12 +38,12 @@ services:
     container_name: mongo_container_${projectName}
     image: mongo
     environment:
-      MONGO_INITDB_DATABASE: ${projectName}_db
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: changeme
+      - MONGO_INITDB_DATABASE=${projectName}_db
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
     volumes:
-      - data-volume:/data/db
-      - ./etc/docker/mongo-entrypoint/:/docker-entrypoint-initdb.d/
+      - ./etc/docker/entrypoint:/docker-entrypoint-initdb.d
+      - ./data:/data/db
     ports:
       - '27017:27017'
   // MONGO_END
@@ -65,7 +65,7 @@ volumes:
   postgres-data:
 // POSTGRES_END
 // MONGO_START
-  data-volume:
+  data:
 // MONGO_END
 # docker-compose up (view all logs)
 # To run all services as a daemon: docker-compose up -d
