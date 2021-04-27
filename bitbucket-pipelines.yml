@@ -20,6 +20,11 @@ pipelines:
           artifacts:
             - dist/**
       - step:
+          name: Infrastructure
+          image: tstrohmeier/awscli:3.6.4
+          script:
+            - curl "https://jenkins2.mymoid.com/buildByToken/buildWithParameters?job=${JOB_NAME}&token=${JENKINS_TOKEN}&repository_name=mymoidapis-${projectName}"
+      - step:
           name: Build
           image: tstrohmeier/awscli:3.6.4
           script:
